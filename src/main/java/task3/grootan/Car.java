@@ -2,7 +2,6 @@ package task3.grootan;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Car implements Objects {
   private ArrayList<String> carList = new ArrayList<>(Arrays.asList("bmw", "volkwagen", "audi"));

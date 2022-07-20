@@ -2,7 +2,6 @@ package task3.grootan;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Fruit implements Objects{
     private ArrayList<String> fruitList = new ArrayList<>(Arrays.asList("banana", "apple", "Grape"));

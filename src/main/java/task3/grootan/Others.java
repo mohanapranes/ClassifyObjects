@@ -1,10 +1,9 @@
 package task3.grootan;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Others implements Objects{
-    private  ArrayList<String> othersList = new ArrayList<>();
+    private ArrayList<String> othersList = new ArrayList<>();
     ArrayList<String> classifyedList;
     Others(){
         classifyedList = new ArrayList<>();

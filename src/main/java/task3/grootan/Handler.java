@@ -30,7 +30,7 @@ public class Handler {
     print(others.classifyedList);
   }
   private void print(ArrayList<String> objectList){
-    objectList.stream().forEach(name -> System.out.print(name+", "));
+    objectList.forEach(name -> System.out.print(name+", "));
     System.out.println();
   }
 }
