@@ -1,36 +1,53 @@
 package task3.grootan;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Handler {
-  private Car car = new Car();
-  private Fruit fruit = new Fruit();
-  private Cycle cycle = new Cycle();
-  private Others others = new Others();
-  void addInClassifyList(String object) {
-    if (car.isAvailable(object)) {
-      System.out.println("Car");
-    } else if (fruit.isAvailable(object)) {
-      System.out.println("Fruit");
-    } else if (cycle.isAvailable(object)) {
-      System.out.println("Cycle");
-    } else {
-      System.out.println("Others");
-      others.addInBasket(object);
+  private CarBasket carBasket = new CarBasket();
+  private FruitBasket fruitBasket = new FruitBasket();
+  private CycleBasket cycleBasket = new CycleBasket();
+  private OthersBasket othersBasket = new OthersBasket();
+  List<Baskets> basketsList = new ArrayList<>();
+
+  Handler() {
+    basketsList.add(carBasket);
+    basketsList.add(fruitBasket);
+    basketsList.add(cycleBasket);
+  }
+
+  /*otherClassesHaveTheName value used for check if any classes have the name object, if they doesn't
+   * name object will be go to Others class, it is static because of parallel stream, every classes ifValueAvailableAddToList
+   * function run in many thread if that function found name object otherClassesHaveTheName will change to 1*/
+  static int otherClassesHaveTheName = 0;
+
+  void addInClassifyList(String name) throws InterruptedException {
+    /*I stored objects of Car, Fruit, Cycle in a List, and use parallel streaming for search the name in all objects
+    * using multi threading */
+    otherClassesHaveTheName = 0;
+    basketsList.stream()
+        .parallel()
+        .peek(itrClass -> itrClass.ifValueAvailableAddToList(name))
+        .collect(Collectors.toList());
+    if (otherClassesHaveTheName == 0) {
+      othersBasket.addInOthers(name);
     }
   }
-  void printEveryThing(){
+
+  void printEveryThing() {
     System.out.print("Car -> ");
-    print(car.classifyedList);
+    print(carBasket.classifiedList);
     System.out.print("Fruit -> ");
-    print(fruit.classifyedList);
+    print(fruitBasket.classifiedList);
     System.out.print("Cycle -> ");
-    print(cycle.classifyedList);
+    print(cycleBasket.classifiedList);
     System.out.print("Others -> ");
-    print(others.classifyedList);
+    print(othersBasket.classifiedList);
   }
-  private void print(ArrayList<String> objectList){
-    objectList.forEach(name -> System.out.print(name+", "));
+
+  private void print(ArrayList<String> objectList) {
+    objectList.forEach(name -> System.out.print(name + " "));
     System.out.println();
   }
 }
